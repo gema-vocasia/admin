@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Dashboard, User, Category, Campaign } from "../pages";
-import { Navbar } from "../components/templates";
+import { Dashboard, User, Category, Campaign, Login } from "../pages";
 
 const routes = createBrowserRouter([
   {
@@ -8,8 +7,8 @@ const routes = createBrowserRouter([
     element: <Dashboard />, // Halaman utama dashboard
   },
   {
-    path: "/Navbar",
-    element: <Navbar />,
+    path: "/login",
+    element: <Login />,
   },
   {
     path: "/user",

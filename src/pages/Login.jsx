@@ -1,9 +1,11 @@
-const Login = () => {
-    return (
-        <div>
-            <h1>Login</h1>
-        </div>
-    )
+import { FormLogin } from "../components/organisms";
+
+function Login() {
+  return (
+    <div className="min-h-screen flex flex-col md:flex-row">
+      <FormLogin />
+    </div>
+  );
 }
 
-export default Login
+export default Login;
