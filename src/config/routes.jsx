@@ -6,6 +6,7 @@ import {
   Campaign,
   EditCategory,
   AddCategory,
+  EditCampaign,
 } from "../pages";
 import { Navbar } from "../components/templates";
 
@@ -36,7 +37,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "/campaign",
-    element: <Campaign />, // Halaman kampanye
+    element: <Campaign />,
+  },
+  {
+    path: "/edit-campaign",
+    element: <EditCampaign />,
   },
 ]);
 

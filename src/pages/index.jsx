@@ -4,5 +4,14 @@ import Category from "./Category";
 import User from "./User";
 import EditCategory from "./EditCategory";
 import AddCategory from "./AddCategory";
+import EditCampaign from "./EditCampaign";
 
-export { Campaign, Dashboard, Category, User, EditCategory, AddCategory };
+export {
+  Campaign,
+  Dashboard,
+  Category,
+  User,
+  EditCategory,
+  AddCategory,
+  EditCampaign,
+};
