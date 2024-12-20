@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import campaignStore from "../../store/campaignStore";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -11,7 +11,6 @@ import Button from "../atoms/Button";
 import Label from "../atoms/Label";
 import Swal from "sweetalert2";
 import { axiosInstance as api } from "../../config/axiosInstance.js";
-import { toast } from "react-toastify";
 
 const FormBuatCampaign = () => {
   const [thumbnail, setThumbnail] = useState(null);
@@ -26,7 +25,6 @@ const FormBuatCampaign = () => {
   const { createCampaign, isLoading } = campaignStore();
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const navigate = useNavigate();
-  const { id } = useParams();
 
   const fetchCategories = async () => {
     try {
@@ -102,38 +100,19 @@ const FormBuatCampaign = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const {
-      judul,
-      kategori,
-      targetDonasi,
-      tanggalMulai,
-      tanggalBerakhir,
-      deskripsi,
-      thumbnail,
-      selectedCategory,
-    } = formState;
-    console.log("Data kampanye yang dikirim:", {
-      judul,
-      kategori,
-      targetDonasi,
-      tanggalMulai,
-      tanggalBerakhir,
-      deskripsi,
-      thumbnail,
-      selectedCategory,
-    });
+    // Validasi form
+    const steps = [
+      { field: judul, step: 0 },
+      { field: kategori, step: 1 },
+      { field: targetDonasi, step: 2 },
+      { field: tanggalMulai && tanggalBerakhir, step: 3 },
+      { field: deskripsi, step: 4 },
+      { field: thumbnail, step: 5 },
+    ];
 
-    // Validasi sederhana
-    if (
-      !judul ||
-      !kategori ||
-      !targetDonasi ||
-      !tanggalMulai ||
-      !tanggalBerakhir ||
-      !deskripsi ||
-      !thumbnail
-    ) {
-      toast.error("Harap lengkapi semua field sebelum mengirim!");
+    const incompleteStep = steps.find((item) => !item.field);
+    if (incompleteStep) {
+      setCurrentStep(incompleteStep.step);
       return;
     }
 
@@ -144,27 +123,25 @@ const FormBuatCampaign = () => {
       targetAmount: parseInt(targetDonasi, 10),
       startDate: tanggalMulai,
       endDate: tanggalBerakhir,
-      description: new DOMParser().parseFromString(deskripsi, "text/html").body
-        .textContent,
+      description: cleanHTML(deskripsi),
     };
 
     try {
-      // Kirim data ke endpoint API
-      const response = await api.post("/api/campaigns", campaignData, {
-        headers: {
-          "Content-Type": "multipart/form-data", // Jika ada file yang dikirim
-        },
+      await createCampaign(campaignData, thumbnail); // Panggil store
+      Swal.fire({
+        icon: "success",
+        title: "Kampanye Berhasil Dibuat",
+        text: "Kampanye Anda telah berhasil dibuat!",
+        confirmButtonText: "OK",
       });
-
-      if (response.status === 201) {
-        toast.success("Kampanye berhasil dibuat!");
-        navigate("/kampanye-saya");
-      } else {
-        toast.error("Terjadi kesalahan saat membuat kampanye.");
-      }
+      navigate("/kampanye-saya");
     } catch (error) {
-      console.error("Error saat membuat kampanye:", error);
-      toast.error("Gagal membuat kampanye, silakan coba lagi.");
+      Swal.fire({
+        icon: "error",
+        title: "Terjadi Kesalahan",
+        text: error.message || "Terjadi kesalahan saat membuat kampanye.",
+        confirmButtonText: "OK",
+      });
     }
   };
 
