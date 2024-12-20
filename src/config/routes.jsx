@@ -1,5 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Dashboard, User, Category, Campaign } from "../pages";
+import {
+  Dashboard,
+  User,
+  Category,
+  Campaign,
+  EditCategory,
+  AddCategory,
+} from "../pages";
 import { Navbar } from "../components/templates";
 
 const routes = createBrowserRouter([
@@ -18,6 +25,14 @@ const routes = createBrowserRouter([
   {
     path: "/category",
     element: <Category />, // Halaman kategori
+  },
+  {
+    path: "/category/edit/:id",
+    element: <EditCategory />,
+  },
+  {
+    path: "/add-category",
+    element: <AddCategory />,
   },
   {
     path: "/campaign",
