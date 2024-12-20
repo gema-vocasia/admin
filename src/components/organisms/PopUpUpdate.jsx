@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { process } from "vite";
 import Swal from "sweetalert2";
 import userStore from "../../store/userStore";
 
@@ -167,7 +166,7 @@ const handleSubmit = () => {
                 </label>
                 <div className="flex items-center">
                   <img
-                    src={`${process.env.VITE_BASE_URL}/files/${formData.nationalIdentityCard}`}
+                    src={`${import.meta.env.VITE_BASE_URL}/files/${formData.nationalIdentityCard}`}
                     alt="National Identity Card"
                     className="max-w-full max-h-48 rounded border"
                   />

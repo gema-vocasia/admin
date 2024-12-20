@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import userStore from "../store/userStore";
 import { PopUpData, PopUpUpdate } from "../components/organisms";
 import Swal from "sweetalert2"; // Import SweetAlert2
-import NavBar from "../components/templates/NavBar"; // Import NavBar
+import { Navbar}  from "../components/templates"; // Import NavBar
 
 const User = () => {
   const { user, getUsers, deleteUser, updateUser } = userStore();
@@ -35,7 +35,7 @@ const User = () => {
   return (
     <div className="container mx-auto p-4">
       {/* Tambahkan NavBar di sini */}
-      <NavBar />
+      <Navbar />
 
 
       {/* Header */}

@@ -1,5 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Dashboard, User, Category, Campaign, Login } from "../pages";
+import {
+  Dashboard,
+  User,
+  Category,
+  Campaign, Login,
+  EditCategory,
+  AddCategory,
+} from "../pages";
 
 const routes = createBrowserRouter([
   {
@@ -17,6 +24,14 @@ const routes = createBrowserRouter([
   {
     path: "/category",
     element: <Category />, // Halaman kategori
+  },
+  {
+    path: "/category/edit/:id",
+    element: <EditCategory />,
+  },
+  {
+    path: "/add-category",
+    element: <AddCategory />,
   },
   {
     path: "/campaign",

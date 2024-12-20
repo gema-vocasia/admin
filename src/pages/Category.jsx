@@ -1,8 +1,12 @@
+import Categories from "../components/organisms/Categories";
+import Navbar from "../components/templates/Navbar";
+
 const Category = () => {
   return (
-    <div className="text-3xl text-center">
-      <h1>Category</h1>
-    </div>
+    <>
+      <Navbar />
+      <Categories />
+    </>
   );
 };
 
