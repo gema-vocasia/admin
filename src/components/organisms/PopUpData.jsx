@@ -2,8 +2,14 @@ import { useState } from "react";
 
 const PopUpData = ({ user }) => {
   const [showPopup, setShowPopup] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const closePopup = () => setShowPopup(false);
+
+  // Fungsi untuk mendapatkan URL gambar KTP
+  const getKTPImageUrl = (filename) => {
+    return `${import.meta.env.VITE_BASE_URL}/files/${filename}`;
+  };
 
   return (
     <>
@@ -82,12 +88,25 @@ const PopUpData = ({ user }) => {
 
             {/* Gambar KTP */}
             {user?.nationalIdentityCard && (
-              <div className="mt-4 flex justify-center">
-                <img
-                  src={`http://localhost:8080/api/v1/files/${user.nationalIdentityCard}`}
-                  alt="National Identity Card"
-                  className="max-w-full max-h-48 rounded border"
-                />
+              <div className="mt-4">
+                <p className="font-bold mb-2">KTP Preview:</p>
+                <div className="flex justify-center">
+                  {!imageError ? (
+                    <img
+                      src={getKTPImageUrl(user.nationalIdentityCard)}
+                      alt="National Identity Card"
+                      className="max-w-full max-h-48 rounded border object-contain"
+                      onError={(e) => {
+                        setImageError(true);
+                        console.error("Error loading KTP image");
+                      }}
+                    />
+                  ) : (
+                    <div className="text-red-500 p-4 border rounded">
+                      Failed to load KTP image
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>

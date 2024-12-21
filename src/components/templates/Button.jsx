@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PopUpUpdateCampaign from "../organisms/PopUpUpdateCampaign";
+import PopUpData from "../organisms/PopUpAccountNumber";
 
 const CampaignDropdown = ({
   campaign,
@@ -9,6 +9,7 @@ const CampaignDropdown = ({
   handleDelete,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleAction = (action) => {
     action();
@@ -33,9 +34,10 @@ const CampaignDropdown = ({
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-20 py-1">
             {/* Detail Button */}
             <button
-              onClick={() =>
-                handleAction(() => navigate(`/campaigns/${campaign._id}`))
-              }
+              onClick={() => {
+                setShowPopup(true);
+                setIsOpen(false);
+              }}
               className="w-full px-4 py-2 text-left flex items-center space-x-2 hover:bg-gray-100 text-blue-600"
             >
               <svg
@@ -49,19 +51,18 @@ const CampaignDropdown = ({
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                  d="M12 3l8 4v6c0 5-4 9-8 9s-8-4-8-9V7l8-4z"
                 />
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  d="M12 12c1.657 0 3-1.343 3-3S13.657 6 12 6 9 7.343 9 9s1.343 3 3 3z"
                 />
               </svg>
-              <span>Detail</span>
+              <span>Nomor Rekening</span>
             </button>
 
             {/* Update Button */}
-            <PopUpUpdateCampaign campaign={campaign}  />
             <button
               onClick={() =>
                 handleAction(() =>
@@ -154,6 +155,13 @@ const CampaignDropdown = ({
             </button>
           </div>
         </>
+      )}
+
+      {showPopup && (
+        <PopUpData
+          user={campaign} // Kirim data campaign ke popup
+          onClose={() => setShowPopup(false)} // Tutup popup
+        />
       )}
     </div>
   );
