@@ -6,6 +6,8 @@ import {
   Campaign, Login,
   EditCategory,
   AddCategory,
+  EditCampaign,
+  AddCampaign,
 } from "../pages";
 
 const routes = createBrowserRouter([
@@ -35,7 +37,15 @@ const routes = createBrowserRouter([
   },
   {
     path: "/campaign",
-    element: <Campaign />, // Halaman kampanye
+    element: <Campaign />,
+  },
+  {
+    path: "/add-campaign",
+    element: <AddCampaign />,
+  },
+  {
+    path: "/edit-campaign",
+    element: <EditCampaign />,
   },
 ]);
 

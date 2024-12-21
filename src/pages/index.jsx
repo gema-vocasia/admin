@@ -5,5 +5,17 @@ import User from "./User";
 import Login from "./Login";
 import EditCategory from "./EditCategory";
 import AddCategory from "./AddCategory";
+import EditCampaign from "./EditCampaign";
+import AddCampaign from "./AddCampaign";
 
-export { Campaign, Dashboard, Category, User, EditCategory, AddCategory, Login };
+export {
+  Login,
+  Campaign,
+  Dashboard,
+  Category,
+  User,
+  EditCategory,
+  AddCategory, 
+  EditCampaign,
+  AddCampaign,
+};

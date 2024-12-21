@@ -7,7 +7,7 @@ const userStore = create((set, get) => ({
   // Read
   getUsers: async () => {
     try {
-      const res = await api.get("/users/");
+      const res = await api.get("/admin/users/");
 
       set({ user: res.data });
 
@@ -19,7 +19,7 @@ const userStore = create((set, get) => ({
   // Update an existing user
   updateUser: async (userId, updatedUser) => {
     try {
-      await api.put(`/user/update/${userId}`, updatedUser);
+      await api.put(`/admin/update/user/${userId}`, updatedUser);
       
     } catch (error) {
       console.error("Error updating user:", error);
