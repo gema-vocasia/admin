@@ -73,6 +73,16 @@ const PopUpDataCampaign = ({ campaign }) => {
               <strong>End Date:</strong>{" "}
               {new Date(campaign.endDate).toLocaleDateString()}
             </p>
+            <p>
+              <strong>Status Transfer:</strong>{" "}
+              {campaign.statusTransfer || "Not Requested"}
+            </p>
+            <p>
+              <strong>Account Number:</strong> {campaign.accountNumber || "N/A"}
+            </p>
+            <p>
+              <strong>Bank Name:</strong> {campaign.bankName || "N/A"}
+            </p>
 
             {/* Gambar Campaign */}
             {campaign.photo && (

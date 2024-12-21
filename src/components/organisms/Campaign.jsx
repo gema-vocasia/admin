@@ -3,7 +3,6 @@ import { axiosInstance as api } from "../../config/axiosInstance.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CampaignDropdown from "../templates/Button.jsx";
-// import PopUpData from "./PopUpAccountNumber.jsx";
 
 const Campaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -196,7 +195,6 @@ const Campaigns = () => {
                 <CampaignDropdown
                   campaign={campaign}
                   navigate={navigate}
-                  hand
                   handlePublish={handlePublish}
                   handleTransfer={handleTransfer}
                   handleDelete={handleDelete}

@@ -8,9 +8,9 @@ const userStore = create((set, get) => ({
   getUsers: async () => {
     try {
       const res = await api.get("/admin/users/");
-      const filteredUsers = res.data.filter((user) => user.role !== "ADMIN");
 
-      set({ user: filteredUsers });
+      set({ user: res.data });
+
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -20,6 +20,7 @@ const userStore = create((set, get) => ({
   updateUser: async (userId, updatedUser) => {
     try {
       await api.put(`/admin/update/user/${userId}`, updatedUser);
+      
     } catch (error) {
       console.error("Error updating user:", error);
     }
@@ -47,7 +48,7 @@ const userStore = create((set, get) => ({
     } catch (error) {
       console.error("Error updating user KYC:", error);
     }
-  },
+  }
 }));
 
 export default userStore;

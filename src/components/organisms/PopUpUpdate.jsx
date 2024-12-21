@@ -90,7 +90,10 @@ const handleSubmit = () => {
 
       {/* Pop-Up */}
       {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div
+          style={{ margin: 0 }}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        >
           <div className="relative bg-white p-6 rounded-lg shadow-lg w-1/3">
             {/* Tombol Close */}
             <button
@@ -166,7 +169,9 @@ const handleSubmit = () => {
                 </label>
                 <div className="flex items-center">
                   <img
-                    src={`${import.meta.env.VITE_BASE_URL}/files/${formData.nationalIdentityCard}`}
+                    src={`${import.meta.env.VITE_BASE_URL}/files/${
+                      formData.nationalIdentityCard
+                    }`}
                     alt="National Identity Card"
                     className="max-w-full max-h-48 rounded border"
                   />

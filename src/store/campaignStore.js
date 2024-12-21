@@ -59,7 +59,7 @@ const campaignStore = create((set) => ({
         formData.append(key, campaignData[key]);
       });
 
-      console.log("ini data", formData)
+      console.log("ini data", formData);
 
       if (photoFile) {
         formData.append("photo", photoFile); // Tambahkan file foto jika ada
@@ -93,24 +93,64 @@ const campaignStore = create((set) => ({
 
   // Update accountNumber
   updateStatusTransfer: async (campaignId) => {
-  try {
-    set({ isLoading: true, error: null });
+    try {
+      set({ isLoading: true, error: null });
 
-    // Kirim permintaan API untuk update status ke "On Progress"
-    const response = await api.patch( `/campaign/${campaignId}/transfer/On%20Progress` );
+      // Kirim permintaan API untuk update status ke "On Progress"
+      const response = await api.patch(
+        `/campaign/${campaignId}/transfer/On%20Progress`
+      );
 
+      // Kembalikan response dari server
+      set({ isLoading: false });
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Gagal Request Penarikan Dana";
+      set({ isLoading: false, error: errorMessage });
+      throw new Error(errorMessage);
+    }
+  },
 
-    // Kembalikan response dari server
-    set({ isLoading: false });
-    return response.data;
-  } catch (error) {
-    const errorMessage =
-      error.response?.data?.message || "Gagal Request Penarikan Dana";
-    set({ isLoading: false, error: errorMessage });
-    throw new Error(errorMessage);
-  }
-},
+  // Update Campaign
+  updateCampaign: async (campaignId, campaignData, photoFile) => {
+    try {
+      set({ isLoading: true, error: null });
 
+      // Membuat objek FormData untuk data campaign dan foto
+      const formData = new FormData();
+      Object.keys(campaignData).forEach((key) => {
+        formData.append(key, campaignData[key]);
+      });
+      if (photoFile) {
+        formData.append("photo", photoFile); // Tambahkan file foto jika ada
+      }
+
+      // Kirim data campaign ke server menggunakan POST
+      const response = await api.patch(`/admin/campaign/${campaignId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // Memperbarui state dengan campaign yang baru dibuat
+      set((state) => ({
+        campaigns: [...state.campaigns, response.data],
+        error: null,
+      }));
+
+      return response.data; // Mengembalikan data campaign yang berhasil dibuat
+    } catch (error) {
+      // Menangani error jika ada
+      const errorMessage =
+        error.response?.data?.message || "Gagal membuat kampanye";
+      set({ error: errorMessage });
+      throw new Error(errorMessage); // Melempar error untuk penanganan lebih lanjut
+    } finally {
+      // Menyelesaikan status loading
+      set({ isLoading: false });
+    }
+  },
 
   reset: (fields = []) => {
     if (fields.length === 0) {
