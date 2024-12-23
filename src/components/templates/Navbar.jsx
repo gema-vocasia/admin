@@ -1,11 +1,9 @@
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link, useLocation } from "react-router-dom";
+import { Disclosure, DisclosurePanel } from "@headlessui/react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "../atoms";
+import { useAuth } from "../../config/auth.js";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const navigation = [
   { name: "Beranda", to: "/" },
@@ -14,42 +12,41 @@ const navigation = [
   { name: "Kampanye", to: "/campaign" },
 ];
 
-const LoginButton = () => (
-  <Link
-    to="/login"
-    className="inline-flex items-center justify-center px-4 py-2 border border-[#5E84C5] text-sm font-medium rounded-md text-[#5E84C5] hover:bg-[#5E84C5] hover:text-white transition-colors duration-200"
-  >
-    Masuk
-  </Link>
-);
-
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
   const updatedNavigation = navigation.map((item) => ({
     ...item,
     current: location.pathname === item.to,
   }));
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success("Berhasil logout!", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      navigate("/admin-login");
+    } catch (error) {
+      toast.error("Gagal logout. Silakan coba lagi.", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    }
+  };
+
   return (
     <Disclosure as="nav" className="bg-white shadow-md sticky top-0 z-20">
-      {({ open }) => (
+      {() => (
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
-              <div className="flex items-center sm:space-x-4">
-                {/* Mobile menu button */}
-                <div className="sm:hidden flex items-center">
-                  <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-[#5E84C5] hover:bg-[#5E84C5] hover:text-white">
-                    {open ? (
-                      <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                    ) : (
-                      <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                    )}
-                  </DisclosureButton>
-                </div>
-
-                {/* Logo - now with proper spacing on mobile */}
-                <div className="ml-2 sm:ml-0">
+              <div className="flex items-center">
+                {/* Logo */}
+                <div>
                   <Logo />
                 </div>
               </div>
@@ -73,9 +70,14 @@ const Navbar = () => {
                 </div>
               </div>
 
-              {/* Login button */}
-              <div className="flex items-center">
-                <LoginButton />
+              {/* Logout Button - Desktop */}
+              <div className="hidden sm:block">
+                <button
+                  onClick={handleLogout}
+                  className="bg-[#5E84C5] hover:bg-[#4A6F98] text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 ease-in-out"
+                >
+                  Logout
+                </button>
               </div>
             </div>
           </div>
@@ -96,6 +98,14 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
+
+              {/* Logout Button - Mobile */}
+              <button
+                onClick={handleLogout}
+                className="w-full text-left bg-[#5E84C5] hover:bg-[#4A6F98] text-white px-3 py-2 rounded-md text-base mt-2 transition-all duration-300 ease-in-out"
+              >
+                Logout
+              </button>
             </div>
           </DisclosurePanel>
         </>

@@ -1,9 +1,13 @@
-const Dashboard = () => {
-    return (
-        <div className="text-3xl text-center">
-            <h1>Dashboard</h1>
-        </div>
-    )
-}
+import Das from "../components/organisms/Dashboard";
+import Navbar from "../components/templates/Navbar";
 
-export default Dashboard
+const Dashboard = () => {
+  return (
+    <>
+      <Navbar />
+      <Das />
+    </>
+  );
+};
+
+export default Dashboard;

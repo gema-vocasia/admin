@@ -23,5 +23,10 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => response.data,
-  (error) => Promise.reject(error)
+  async (error) => {
+    if (error.response?.status === 401) {
+      window.location.href = "/admin-login";
+    }
+    return Promise.reject(error);
+  }
 );

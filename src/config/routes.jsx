@@ -3,7 +3,8 @@ import {
   Dashboard,
   User,
   Category,
-  Campaign, Login,
+  Campaign,
+  Login,
   EditCategory,
   AddCategory,
   EditCampaign,
@@ -16,7 +17,7 @@ const routes = createBrowserRouter([
     element: <Dashboard />, // Halaman utama dashboard
   },
   {
-    path: "/login",
+    path: "/admin-login",
     element: <Login />,
   },
   {

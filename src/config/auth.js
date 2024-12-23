@@ -66,12 +66,6 @@ export const useAuth = create((set, get) => ({
         password,
       });
 
-      // Cek status verifikasi dari response
-      if (!data.data.user.verified) {
-        // Pastikan melempar error dengan pesan spesifik
-        throw new Error("Email belum diverifikasi");
-      }
-
       saveAccessToken(data.data.token);
       const userData = data.data.user;
       localStorage.setItem("user", JSON.stringify(userData));
@@ -80,13 +74,7 @@ export const useAuth = create((set, get) => ({
     } catch (error) {
       // Tangani error dengan spesifik
       if (error.response) {
-        // Error dari server
-        if (error.response.data.message === "NOT_VERIFIED") {
-          throw new Error("Email belum diverifikasi");
-        }
         throw new Error(error.response.data.message || "Login gagal");
-      } else if (error.message === "Email belum diverifikasi") {
-        throw error;
       } else {
         throw new Error("Login gagal. Silakan coba lagi.");
       }

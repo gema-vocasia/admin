@@ -2,14 +2,25 @@ import { useEffect } from "react";
 import userStore from "../store/userStore";
 import { PopUpData, PopUpUpdate } from "../components/organisms";
 import Swal from "sweetalert2"; // Import SweetAlert2
-import { Navbar}  from "../components/templates"; // Import NavBar
+import { Navbar } from "../components/templates";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const User = () => {
+  const navigate = useNavigate();
   const { user, getUsers, deleteUser, updateUser } = userStore();
 
   useEffect(() => {
     getUsers();
   }, [getUsers]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      toast.error("Anda harus login terlebih dahulu!");
+      navigate("/admin-login");
+    }
+  }, [navigate]);
 
   const handleDelete = (userId) => {
     // Menampilkan konfirmasi sebelum menghapus user
@@ -37,7 +48,6 @@ const User = () => {
       {/* Tambahkan NavBar di sini */}
       <Navbar />
 
-
       {/* Header */}
       <div className="my-4">
         <div className="flex justify-between items-center mb-2">
@@ -46,7 +56,6 @@ const User = () => {
               Users
             </h2>
           </div>
-          
         </div>
         <div className="text-white grid grid-cols-6 gap-4 text-lg font-semibold p-2 bg-[#5E84C5] rounded">
           <div>Name</div>
@@ -96,8 +105,6 @@ const User = () => {
             <div className="flex justify-center space-x-2">
               {/* Tombol untuk memunculkan tombol dan Pop-Up */}
               <PopUpData user={item} />
-
-              
 
               {/* Tombol untuk update user */}
               <PopUpUpdate user={item} updateUser={updateUser} />

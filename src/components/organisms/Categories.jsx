@@ -8,6 +8,14 @@ const Categories = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      toast.error("Anda harus login terlebih dahulu!");
+      navigate("/admin-login");
+    }
+  }, [navigate]);
+
   async function fetchCategories() {
     try {
       const response = await api.get("/categories");

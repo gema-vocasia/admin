@@ -9,6 +9,14 @@ const Campaigns = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      toast.error("Anda harus login terlebih dahulu!");
+      navigate("/admin-login");
+    }
+  }, [navigate]);
+
   // Fetch campaigns data
   const fetchCampaigns = async () => {
     try {
